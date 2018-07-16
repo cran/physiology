@@ -1,4 +1,4 @@
-## ----, echo=FALSE, fig.width=7, fig.height=7-----------------------------
+## ---- echo=FALSE, fig.width=7, fig.height=7------------------------------
 library(physiology)
 library(ggplot2)
 library(reshape2)
@@ -6,11 +6,11 @@ hts <- seq(from = 1.5, to = 2.0, by = 0.01)
 suppressWarnings({
   ideal_weights <- data.frame(
     "Height" = hts,
-    Devine = ideal_weight_Devine(heightm = hts, male = rep(T, times=length(hts))),
-    Broca = ideal_weight_Broca(heightm = hts, male = rep(T, times=length(hts))),
-    Robinson = ideal_weight_Robinson(heightm = hts, male = rep(T, times=length(hts))),
-    Miller = ideal_weight_Miller(heightm = hts, male = rep(T, times=length(hts))),
-    Lemmens = ideal_weight_Lemmens(heightm = hts)
+    Devine = ideal_weight_Devine(height_m = hts, male = rep(T, times=length(hts))),
+    Broca = ideal_weight_Broca(height_m = hts, male = rep(T, times=length(hts))),
+    Robinson = ideal_weight_Robinson(height_m = hts, male = rep(T, times=length(hts))),
+    Miller = ideal_weight_Miller(height_m = hts, male = rep(T, times=length(hts))),
+    Lemmens = ideal_weight_Lemmens(height_m = hts)
     )
   })
 p <- ggplot(melt(ideal_weights, id.vars = "Height"),
