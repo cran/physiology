@@ -1,38 +1,22 @@
-#' @title Estimate body surface area of an adult
-#' @description \code{bsa_adult} Estimate body surface area of an
-#'   adult using \code{sqrt(wt*ht)/6} TODO: reference for this.
-#' @template height_m
-#' @template weight_kg
-#' @param ... passed to validation
-#' @return numeric vector
-#' @examples
-#' bsa_adult(2, 80)
-#' bsa_adult(1.5, 80)
-#' @export
-bsa_adult <- function(height_m, weight_kg, ...) {
-  stopifnot(length(height_m) == length(weight_kg))
-  valid_height_adult(height_m, ...)
-  valid_weight_adult(weight_kg, ...)
-  sqrt(height_m * weight_kg) / 6
-}
-
 #' @title ideal weight for adults
 #' @description \code{ideal_weight_adult} gives the ideal weight using default
 #'   adult algorithm, Devine. If an age is specified and less than 18 years, the
 #'   Traub function will be used.
 #' @template height_m
-#' @template male
 #' @template dots
 #' @param age_y numeric vector, age(s) in years. Extremely exact age is not
 #'   required, so for age in days or months, simplest just to divide. This is
 #'   not used in the calculation itself, so may be missing.
-#' @param ... passed to validation.
+#' @template male
 #' @rdname ideal_weight
 #' @examples
 #' ideal_weight_adult(1.7, male = TRUE)
 #' ideal_weight_adult(1.7, male = FALSE)
 #' ideal_weight_adult(6 * 12 * 2.54 / 100, male = TRUE) # 6ft
 #' suppressWarnings(ideal_weight_adult(5, male = FALSE))
+#' @concept BMI
+#' @family body mass index
+#' @family ideal weight
 #' @export
 ideal_weight <- function(height_m, ..., age_y = NULL, male = NULL) {
   if (is.null(age_y) || age_y > 18)
@@ -51,7 +35,8 @@ ideal_weight_adult <- function(height_m, male, ...)
 ideal_weight_child <- function(height_m, age_y = NULL, ...)
   ideal_weight_Traub(height_m, age_y, ...)
 
-#' @title ideal weight for child per Traub
+#' ideal weight for child per Traub
+#'
 #' @description `2.396e0.01863(height)`, where height is in cm. There is an
 #'   argument for using another package to capture durations, of which age is a
 #'   special case. However, I am resisting bringing in external dependencies,
@@ -128,7 +113,6 @@ ideal_weight_Broca <- function(height_m, male, ...)
 #' @rdname ideal_weight
 #' @export
 ideal_weight_Lemmens <- function(height_m, ...) {
-  # TODO: verbose height bounds check
   valid_height(height_m, ...)
   22 * height_m ^ 2
 }
@@ -144,7 +128,7 @@ ideal_weight_Lemmens <- function(height_m, ...) {
 #' @param male_kg_per_inch slope for males
 #' @param female_kg_per_inch slope for females
 #' @param ... passed on to validation
-#' @rdname ideal_weight
+#' @noRd
 #' @keywords internal
 ideal_weight_linear <- function(height_m, male,
                                 height_mininch,
@@ -171,7 +155,6 @@ ideal_weight_linear <- function(height_m, male,
 #'   normal human adults. Nadler SB, Hidalgo JH, Bloch T.
 #' @inheritParams ideal_weight_adult
 #' @template weight_kg
-#' @param ... passed on to validation
 #' @examples
 #' blood_vol_Nadler(1.8, 80, male = TRUE)
 #' blood_vol_Nadler(1.8, 160, male = TRUE)

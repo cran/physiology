@@ -4,8 +4,8 @@
 \alias{age_from_dates}
 \title{age from birth and reference dates}
 \usage{
-age_from_dates(birth_date, ref_date = Sys.Date(), unit = c("year", "month",
-  "day"))
+age_from_dates(birth_date, ref_date = Sys.Date(), unit = c("year",
+  "month", "day"))
 }
 \arguments{
 \item{birth_date}{Date of birth, either as a \code{Date} or something which
@@ -27,8 +27,18 @@ The dates can be given as anything which can be coerced into a \code{Date}.
 }
 \examples{
 age_from_dates("2014-11-08", "2014-12-31", unit = "day")
+age_from_dates("2014-11-08", "2014-12-31", unit = "day")
 age_from_dates("1981-07-09", "2014-06-29", unit = "year")
+# age must be zero or positive, may be in future, or error is thrown
+\dontrun{
+age_from_dates("2120-10-10", "2119-01-01")
+}
+# leap days work: we are just using internal R date manipulation
+age_from_dates("2000-02-28", "2000-03-01", unit = "day")
+age_from_dates("2004-02-28", "2004-03-01", unit = "day")
+age_from_dates("1900-02-28", "1900-03-01", unit = "day")
+age_from_dates("1901-02-28", "1901-03-01", unit = "day")
 }
 \references{
-https://stackoverflow.com/questions/31126726/efficient-and-accurate-age-calculation-in-years-months-or-weeks-in-r-given-b
+https://stackoverflow.com/questions/31126726
 }

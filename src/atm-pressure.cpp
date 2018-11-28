@@ -3,11 +3,6 @@
 #include "atm-pressure.h"
 using namespace Rcpp;
 
-/*
- * tools::package_native_routine_registration_skeleton(".",
- *  "src/registration.c", character_only = FALSE)
- */
-
 //' Get mean atmospheric pressure at given altitude in kPa
 //' @param altitude_m Altitude above mean sea level in meters
 //' @return Pressure in pascals
@@ -28,6 +23,7 @@ using namespace Rcpp;
 //' \url{http://www.braeunig.us/space/atmmodel.htm} Validation data:
 //' \url{https://www.avs.org/AVS/files/c7/c7edaedb-95b2-438f-adfb-36de54f87b9e.pdf}
 //' @concept atmospheric pressure
+//' @family physics
 //' @export
 // [[Rcpp::export]]
 NumericVector pres_atm_kPa(NumericVector altitude_m) {
@@ -56,10 +52,10 @@ float getGeopotential(float altitude_km)
 //' @seealso \code{\link{pres_atm_kPa}}
 //' @param altitude_km Altitude in kilometers
 //' @md
+//' @noRd
 //' @keywords internal
 // [[Rcpp::export]]
-float getStandardTemperature(float altitude_km)
-{
+float getStandardTemperature(float altitude_km) {
   if (altitude_km <= 11)          // Troposphere
     return 288.15f - (6.5 * altitude_km);
   else if (altitude_km <= 20)     // Stratosphere starts
@@ -80,8 +76,7 @@ float getStandardTemperature(float altitude_km)
 }
 
 // [[Rcpp::export]]
-float getStandardPressure(float altitude_m)
-{
+float getStandardPressure(float altitude_m) {
   altitude_m = altitude_m / 1000.0f;  // Convert m to km
   float altitude_km = getGeopotential(altitude_m);
   float t = getStandardTemperature(altitude_km);
